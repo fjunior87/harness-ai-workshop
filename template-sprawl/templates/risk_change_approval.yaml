@@ -1,0 +1,23 @@
+template:
+  name: Risk Change Approval
+  identifier: risk_change_approval
+  versionLabel: "1"
+  type: Step
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    team: risk
+    workshop: template-sprawl
+    purpose: change-approval
+  spec:
+    type: HarnessApproval
+    timeout: 3d
+    spec:
+      approvalMessage: Risk board change approval — confirm residual risk and compensating controls before promote.
+      includePipelineExecutionHistory: false
+      isAutoRejectEnabled: false
+      approvers:
+        userGroups: <+input>
+        minimumCount: 2
+        disallowPipelineExecutor: true
+      approverInputs: []

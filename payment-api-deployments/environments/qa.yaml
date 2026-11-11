@@ -1,0 +1,9 @@
+environment:
+  name: QA
+  identifier: qa
+  description: Workshop QA environment
+  orgIdentifier: __ORG_IDENTIFIER__
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  tags:
+    workshop: payment-api-deployments
+  type: PreProduction

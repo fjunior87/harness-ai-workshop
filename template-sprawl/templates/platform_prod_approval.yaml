@@ -1,0 +1,24 @@
+template:
+  name: Platform Prod Approval
+  identifier: platform_prod_approval
+  versionLabel: "1"
+  type: Step
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    team: platform
+    workshop: template-sprawl
+    purpose: change-approval
+    env: prod
+  spec:
+    type: HarnessApproval
+    timeout: 4h
+    spec:
+      approvalMessage: PRODUCTION ONLY — platform team must approve before any prod promotion.
+      includePipelineExecutionHistory: true
+      isAutoRejectEnabled: true
+      approvers:
+        userGroups: <+input>
+        minimumCount: 1
+        disallowPipelineExecutor: true
+      approverInputs: []

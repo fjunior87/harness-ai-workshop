@@ -1,0 +1,9 @@
+environment:
+  name: Prod
+  identifier: prod
+  description: Workshop Production environment
+  orgIdentifier: __ORG_IDENTIFIER__
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  tags:
+    workshop: payment-api-deployments
+  type: Production

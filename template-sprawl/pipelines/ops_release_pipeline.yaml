@@ -1,0 +1,32 @@
+pipeline:
+  name: Ops Release Pipeline
+  identifier: ops_release_pipeline
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    team: ops
+    workshop: template-sprawl
+  stages:
+    - stage:
+        name: Change Gate
+        identifier: change_gate
+        description: Workshop demo — ops team approval path
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Ops Release Gate
+                  identifier: ops_release_gate
+                  template:
+                    templateRef: ops_release_gate
+                    versionLabel: "1"
+                    templateInputs:
+                      type: HarnessApproval
+                      spec:
+                        approvers:
+                          userGroups: <+input>
+                        approverInputs:
+                          - name: rejection_reason
+                            defaultValue: ""
+                            required: true

@@ -1,0 +1,66 @@
+pipeline:
+  name: payment-api Hotfix
+  identifier: payment_api_hotfix
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    workshop: payment-api-deployments
+    env: prod
+  description: Second Production pipeline (lower failure rate) for failure-rate comparisons
+  variables:
+    - name: should_fail
+      type: String
+      value: <+input>.default("false")
+    - name: sleep_seconds
+      type: String
+      value: <+input>.default("8")
+  stages:
+    - stage:
+        name: Hotfix Deploy
+        identifier: hotfix_deploy
+        description: Production hotfix stage (simulated)
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: payment_api
+          environment:
+            environmentRef: prod
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: prod_infra
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Simulate Hotfix
+                  identifier: simulate_hotfix
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          set -euo pipefail
+                          echo "Simulating payment-api hotfix to Prod"
+                          echo "should_fail=<+pipeline.variables.should_fail>"
+                          echo "sleep_seconds=<+pipeline.variables.sleep_seconds>"
+                          sleep "<+pipeline.variables.sleep_seconds>"
+                          if [ "<+pipeline.variables.should_fail>" = "true" ]; then
+                            echo "Failing simulated hotfix as requested"
+                            exit 1
+                          fi
+                          echo "Simulated hotfix succeeded"
+                    environmentVariables: []
+                    outputVariables: []
+                    onDelegate: true
+                  timeout: 15m
+            rollbackSteps: []
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback

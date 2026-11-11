@@ -1,0 +1,23 @@
+template:
+  name: SRE Deploy Approval v2
+  identifier: sre_deploy_approval_v2
+  versionLabel: "1"
+  type: Step
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    team: sre
+    workshop: template-sprawl
+    purpose: change-approval
+  spec:
+    type: HarnessApproval
+    timeout: 20h
+    spec:
+      approvalMessage: Payments change approval — please review the release impact on payment rails.
+      includePipelineExecutionHistory: true
+      isAutoRejectEnabled: false
+      approvers:
+        userGroups: <+input>
+        minimumCount: 1
+        disallowPipelineExecutor: false
+      approverInputs: []

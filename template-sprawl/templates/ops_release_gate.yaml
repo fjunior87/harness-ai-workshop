@@ -1,0 +1,26 @@
+template:
+  name: Ops Release Gate
+  identifier: ops_release_gate
+  versionLabel: "1"
+  type: Step
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    team: ops
+    workshop: template-sprawl
+    purpose: change-approval
+  spec:
+    type: HarnessApproval
+    timeout: 2d
+    spec:
+      approvalMessage: Ops release gate — verify runbooks, on-call coverage, and rollback owners.
+      includePipelineExecutionHistory: true
+      isAutoRejectEnabled: true
+      approvers:
+        userGroups: <+input>
+        minimumCount: 1
+        disallowPipelineExecutor: false
+      approverInputs:
+        - name: rejection_reason
+          defaultValue: ""
+          required: true

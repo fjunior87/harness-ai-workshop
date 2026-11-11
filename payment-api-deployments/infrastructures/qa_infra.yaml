@@ -1,0 +1,16 @@
+infrastructureDefinition:
+  name: QA K8s
+  identifier: qa_infra
+  description: Workshop QA infrastructure (InheritFromDelegate connector)
+  orgIdentifier: __ORG_IDENTIFIER__
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  tags:
+    workshop: payment-api-deployments
+  environmentRef: qa
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: workshop_k8s
+    namespace: workshop-qa
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: true

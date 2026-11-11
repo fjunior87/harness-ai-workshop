@@ -1,0 +1,68 @@
+pipeline:
+  name: payment-api Prod Deploy
+  identifier: payment_api_prod_deploy
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    workshop: payment-api-deployments
+    env: prod
+  description: Simulated Production deploy for payment-api (ShellScript only)
+  variables:
+    - name: should_fail
+      type: String
+      description: Set true to fail the simulated deploy
+      value: <+input>.default("false")
+    - name: sleep_seconds
+      type: String
+      description: Sleep before success/fail to vary stage duration
+      value: <+input>.default("3")
+  stages:
+    - stage:
+        name: Deploy Payment API
+        identifier: deploy_payment_api
+        description: Production deployment stage (simulated)
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: payment_api
+          environment:
+            environmentRef: prod
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: prod_infra
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Simulate Deploy
+                  identifier: simulate_deploy
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          set -euo pipefail
+                          echo "Simulating payment-api deploy to Prod"
+                          echo "should_fail=<+pipeline.variables.should_fail>"
+                          echo "sleep_seconds=<+pipeline.variables.sleep_seconds>"
+                          sleep "<+pipeline.variables.sleep_seconds>"
+                          if [ "<+pipeline.variables.should_fail>" = "true" ]; then
+                            echo "Failing simulated Production deploy as requested"
+                            exit 1
+                          fi
+                          echo "Simulated Production deploy succeeded"
+                    environmentVariables: []
+                    outputVariables: []
+                    onDelegate: true
+                  timeout: 15m
+            rollbackSteps: []
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback

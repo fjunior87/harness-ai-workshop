@@ -1,0 +1,21 @@
+{
+  "connector": {
+    "name": "Workshop K8s",
+    "identifier": "workshop_k8s",
+    "description": "InheritFromDelegate connector for workshop deploy demos (selector: workshop)",
+    "orgIdentifier": "__ORG_IDENTIFIER__",
+    "projectIdentifier": "__PROJECT_IDENTIFIER__",
+    "tags": {
+      "workshop": "payment-api-deployments"
+    },
+    "type": "K8sCluster",
+    "spec": {
+      "credential": {
+        "type": "InheritFromDelegate"
+      },
+      "delegateSelectors": [
+        "workshop"
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+pipeline:
+  name: Risk Change Pipeline
+  identifier: risk_change_pipeline
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    team: risk
+    workshop: template-sprawl
+  stages:
+    - stage:
+        name: Change Gate
+        identifier: change_gate
+        description: Workshop demo — risk team approval path
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Risk Change Approval
+                  identifier: risk_change_approval
+                  template:
+                    templateRef: risk_change_approval
+                    versionLabel: "1"
+                    templateInputs:
+                      type: HarnessApproval
+                      spec:
+                        approvers:
+                          userGroups: <+input>

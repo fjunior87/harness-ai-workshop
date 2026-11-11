@@ -1,0 +1,16 @@
+infrastructureDefinition:
+  name: Prod K8s
+  identifier: prod_infra
+  description: Workshop Prod infrastructure (InheritFromDelegate connector)
+  orgIdentifier: __ORG_IDENTIFIER__
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  tags:
+    workshop: payment-api-deployments
+  environmentRef: prod
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: workshop_k8s
+    namespace: workshop-prod
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: true

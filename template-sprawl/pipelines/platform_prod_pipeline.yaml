@@ -1,0 +1,29 @@
+pipeline:
+  name: Platform Prod Pipeline
+  identifier: platform_prod_pipeline
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    team: platform
+    workshop: template-sprawl
+    env: prod
+  stages:
+    - stage:
+        name: Change Gate
+        identifier: change_gate
+        description: Workshop demo — platform prod approval path
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Platform Prod Approval
+                  identifier: platform_prod_approval
+                  template:
+                    templateRef: platform_prod_approval
+                    versionLabel: "1"
+                    templateInputs:
+                      type: HarnessApproval
+                      spec:
+                        approvers:
+                          userGroups: <+input>

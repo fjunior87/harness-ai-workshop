@@ -1,0 +1,12 @@
+service:
+  name: payment-api
+  identifier: payment_api
+  description: Workshop service with no manifests and no artifact sources
+  orgIdentifier: __ORG_IDENTIFIER__
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  tags:
+    workshop: payment-api-deployments
+    app: payment-api
+  serviceDefinition:
+    type: Kubernetes
+    spec: {}
