@@ -1,0 +1,46 @@
+pipeline:
+  name: Fixme Shell Pipeline
+  identifier: fixme_shell_pipeline
+  projectIdentifier: __PROJECT_IDENTIFIER__
+  orgIdentifier: __ORG_IDENTIFIER__
+  tags:
+    workshop: analyze-error
+  description: >-
+    Intentionally broken ShellScript for Analyze Error / Help me fix YAML lab.
+    Bug: typo "sllep" should be "sleep".
+  stages:
+    - stage:
+        name: Simulate Work
+        identifier: simulate_work
+        description: Custom stage with a broken shell step
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Run Script
+                  identifier: run_script
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          set -euo pipefail
+                          echo "Starting workshop script..."
+                          # Intentionally broken for the Analyze Error lab:
+                          # "sllep" is a typo — fix to "sleep" via Help me fix / YAML edit.
+                          sllep 1
+                          echo "Script completed successfully"
+                    environmentVariables: []
+                    outputVariables: []
+                    onDelegate: true
+                  timeout: 10m
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: MarkAsFailure

@@ -81,20 +81,19 @@ upsert_template() {
   printf '%s\n' "${yaml}" >"${tmp}"
 
   if template_exists "${identifier}" "${version_label}"; then
-    echo "  updating template: ${identifier} (v${version_label})"
-    url="${HARNESS_BASE_URL}/template/api/templates/${identifier}?${SCOPE_QS}&setDefaultTemplate=true&comments=workshop-template-sprawl-seed"
-    resp="$(harness_curl PUT "${url}" \
-      -H "Content-Type: application/yaml" \
-      --data-binary @"${tmp}" \
-      -w "\n%{http_code}")"
-  else
-    echo "  creating template: ${identifier} (v${version_label})"
-    url="${HARNESS_BASE_URL}/template/api/templates?${SCOPE_QS}&setDefaultTemplate=true&isNewTemplate=true&comments=workshop-template-sprawl-seed"
-    resp="$(harness_curl POST "${url}" \
-      -H "Content-Type: application/yaml" \
-      --data-binary @"${tmp}" \
-      -w "\n%{http_code}")"
+    # Same-version update via PUT is not supported on all accounts (HTTP 405).
+    # Re-seed is idempotent: keep the existing template and continue.
+    echo "  template exists, skipping update: ${identifier} (v${version_label})"
+    rm -f "${tmp}"
+    return 0
   fi
+
+  echo "  creating template: ${identifier} (v${version_label})"
+  url="${HARNESS_BASE_URL}/template/api/templates?${SCOPE_QS}&setDefaultTemplate=true&isNewTemplate=true&comments=workshop-template-sprawl-seed"
+  resp="$(harness_curl POST "${url}" \
+    -H "Content-Type: application/yaml" \
+    --data-binary @"${tmp}" \
+    -w "\n%{http_code}")"
 
   rm -f "${tmp}"
   code="$(http_code_of "${resp}")"

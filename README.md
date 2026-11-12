@@ -17,6 +17,8 @@ This runs:
 
 1. `template-sprawl/seed.sh` — near-duplicate approval templates + pipelines  
 2. `payment-api-deployments/seed.sh` — payment-api CD demo + mixed executions  
+3. `analyze-error/seed.sh` — broken ShellScript pipeline for Analyze Error / Help me fix YAML  
+
 
 Teardown everything:
 

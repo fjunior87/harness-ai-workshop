@@ -9,12 +9,17 @@ echo " Workshop teardown (all labs)"
 echo "========================================"
 echo
 
-echo ">>> Lab 2/2 teardown: payment-api-deployments"
+echo ">>> Lab 3/3 teardown: analyze-error"
+echo
+"${ROOT_DIR}/analyze-error/teardown.sh"
+
+echo
+echo ">>> Lab 2/3 teardown: payment-api-deployments"
 echo
 "${ROOT_DIR}/payment-api-deployments/teardown.sh"
 
 echo
-echo ">>> Lab 1/2 teardown: template-sprawl"
+echo ">>> Lab 1/3 teardown: template-sprawl"
 echo
 "${ROOT_DIR}/template-sprawl/teardown.sh"
 
